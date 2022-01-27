@@ -1,14 +1,16 @@
 import uuid
 
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_file
 from flask_marshmallow import Marshmallow
 from flask_sqlalchemy import SQLAlchemy
 from flask_restful import Api, Resource
+from io import BytesIO
 import jwt
 
 import DB_Model
 from data.user import User
 from data.todo import Todo
+from data.uploads import File
 import sentry_sdk
 from sentry_sdk.integrations.flask import FlaskIntegration
 from DB_Model import *
@@ -16,6 +18,7 @@ from functools import wraps
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI']=f'sqlite:///{DATABASE_NAME}'
+app.config['UPLOAD_FOLDER'] = '/uploads/'
 _session = SQLAlchemy(app)
 _secret = "\x87\xdb\xcd\xf5\rd\x0bF@\x92\x17\x95A\x10\x85X\x15O\x1d\xa8\xd496\xe6"
 
@@ -57,6 +60,44 @@ def token_required(f):
 
     return decorated
 
+
+@app.route('/uploads', methods=['POST'])
+def upload_file():
+    file = request.files['upload']
+    data = file.read()
+    size = str(len(data)) + 'bytes'
+    new_file = File(file.filename, size, data)
+    _session.session.add(new_file)
+    _session.session.commit()
+    return {'message': 'Upload succful'}
+
+@app.route('/uploads', methods=['GET'])
+def get_file_list():
+    qfiles = _session.session.query(File)
+    files = []
+    for file in qfiles:
+        files.append({
+            'id': file.id,
+            'name': file.name,
+            'size': file.size
+        })
+    return jsonify(files), 200
+
+@app.route('/download/<string:name>', methods=['GET'])
+def download_file(name):
+    file = _session.session.query(File).filter(File.name==name).first()
+    if not file:
+        return {'error': 'No file with this name was found'}
+    return send_file(BytesIO(file.data), attachment_filename=f"{name}", as_attachment=True)
+
+@app.route('/uploads/<string:name>', methods=['DELETE'])
+def delete_file(name):
+    file = _session.session.query(File).filter(File.name==name).first()
+    if not file:
+        return {'error': 'No file with this name was found'}
+    _session.session.delete(file)
+    _session.session.commit()
+    return {'message': 'Delete succful'}
 
 @app.route('/login', methods=['POST'])
 def authorisation():

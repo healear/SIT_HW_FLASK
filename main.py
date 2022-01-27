@@ -7,6 +7,8 @@ from app import app
 from DB_Model import DATABASE_NAME, session
 from data.todo import Todo
 from data.user import User
+from data.uploads import File
+
 import create_db
 
 app = Flask(__name__)
