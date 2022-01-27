@@ -5,6 +5,8 @@ from flask_marshmallow import Marshmallow
 from flask_sqlalchemy import SQLAlchemy
 from flask_restful import Api, Resource
 import jwt
+
+import DB_Model
 from data.user import User
 from data.todo import Todo
 import sentry_sdk
@@ -13,7 +15,8 @@ from DB_Model import *
 from functools import wraps
 
 app = Flask(__name__)
-_session = session()
+app.config['SQLALCHEMY_DATABASE_URI']=f'sqlite:///{DATABASE_NAME}'
+_session = SQLAlchemy(app)
 _secret = "\x87\xdb\xcd\xf5\rd\x0bF@\x92\x17\x95A\x10\x85X\x15O\x1d\xa8\xd496\xe6"
 
 
@@ -23,7 +26,7 @@ def get_token(_payload):
 
 
 def authorize(username, password):
-    u = _session.query(User).filter(User.username == username).first()
+    u = _session.session.query(User).filter(User.username == username).first()
     if not password == u.password:
         raise Exception("error")
     return u
@@ -44,7 +47,7 @@ def token_required(f):
         try:
             # decoding the payload to fetch the stored details
             data = jwt.decode(token, _secret, algorithms='HS256')
-            u = _session.query(User).filter(User.username==data['username']).first()
+            u = _session.session.query(User).filter(User.username==data['username']).first()
         except:
             return jsonify({
                 'message': 'Token is invalid !!'
@@ -96,8 +99,8 @@ def registrate():
         username=data['username'],
         password=data['password'],
     )
-    _session.add(u)
-    _session.commit()
+    _session.session.add(u)
+    _session.session.commit()
     return{
         'id': u.id, 'username': u.username
     }, 201
@@ -109,11 +112,11 @@ def todo(curr_u):
     if request.method == 'POST':
         data = request.get_json()
         new_todo = Todo(name=data['name'], userid=curr_u.id)
-        _session.add(new_todo)
-        _session.commit()
+        _session.session.add(new_todo)
+        _session.session.commit()
         return {'message': 'Todo added'}
     if request.method == 'GET':
-        info = _session.query(Todo).filter(Todo.user_id==curr_u.id)
+        info = _session.session.query(Todo).filter(Todo.user_id==curr_u.id)
         todos = []
         for item in info:
             todos.append({
@@ -127,22 +130,22 @@ def todo(curr_u):
 def todo_change(curr_u, name):
     """DELETE AND PUT TODO"""
     if request.method == 'PUT':
-        info = _session.query(Todo).filter(Todo.user_id==curr_u.id, Todo.name==name).first()
+        info = _session.session.query(Todo).filter(Todo.user_id==curr_u.id, Todo.name==name).first()
         data = request.get_json()
         new_name = data['name']
         if not info:
             resp = jsonify({'message': 'No item with this id'}), 400
             return resp
         info.name = new_name
-        _session.commit()
+        _session.session.commit()
         return {'message': 'Update succful'}
     if request.method == 'DELETE':
-        info = _session.query(Todo).filter(Todo.user_id==curr_u.id, Todo.name==name).first()
+        info = _session.session.query(Todo).filter(Todo.user_id==curr_u.id, Todo.name==name).first()
         if not info:
             resp = jsonify({'message': 'No item with this id'}), 400
             return resp
-        _session.delete(info)
-        _session.commit()
+        _session.session.delete(info)
+        _session.session.commit()
         return {'message': 'Delete succful'}
     return {'Error': 'Check request method'}
 

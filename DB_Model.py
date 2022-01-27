@@ -1,6 +1,6 @@
 from flask import Flask, request
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, scoped_session
 from sqlalchemy.ext.declarative import declarative_base
 from flask_marshmallow import Marshmallow
 from flask_sqlalchemy import SQLAlchemy
@@ -10,7 +10,7 @@ from flask_restful import Api, Resource
 
 DATABASE_NAME = 'todo.sqlite'
 engine = create_engine(f'sqlite:///{DATABASE_NAME}')
-session = sessionmaker(bind=engine)
+session = scoped_session(sessionmaker(bind=engine))
 
 Base = declarative_base()
 
