@@ -31,7 +31,7 @@ def get_token(_payload):
 def authorize(username, password):
     u = _session.session.query(User).filter(User.username == username).first()
     if not password == u.password:
-        raise Exception("error")
+        raise Exception("Wrong password")
     return u
 
 
