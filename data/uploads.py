@@ -6,8 +6,9 @@ from flask_bcrypt import Bcrypt
 import jwt
 from datetime import datetime, timedelta
 
+
 class File(Base):
-    __tablename__ = 'files'
+    __tablename__ = "files"
     id = Column(Integer, primary_key=True)
     name = Column(String(255))
     size = Column(String(30))
@@ -19,5 +20,5 @@ class File(Base):
         self.data = data
 
     def __repr__(self):
-        info: str = f'File [Name: {self.name}, Size: {self.size}]'
+        info: str = f"File [Name: {self.name}, Size: {self.size}]"
         return info

@@ -4,17 +4,17 @@ from DB_Model import Base, session
 
 
 class Todo(Base):
-    __tablename__ = 'todo'
+    __tablename__ = "todo"
     id = Column(Integer, primary_key=True)
     name = Column(String(255))
-    user_id = Column(Integer, ForeignKey('user.id'))
+    user_id = Column(Integer, ForeignKey("user.id"))
 
     def __init__(self, name, userid):
         self.name = name
         self.user_id = userid
 
     def __repr__(self):
-        info: str = f'Todo [Name: {self.name}]'
+        info: str = f"Todo [Name: {self.name}]"
         return info
 
     def save(self):

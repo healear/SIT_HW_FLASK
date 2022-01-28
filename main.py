@@ -13,22 +13,23 @@ import create_db
 
 app = Flask(__name__)
 
-@app.route('/')
+
+@app.route("/")
 def home():
-    return{
-        'message': 'Fine'
-    }, 200
+    return {"message": "Fine"}, 200
 
-@app.route('/users')
+
+@app.route("/users")
 def get_users():
-    return jsonify([
-        {'id': user.id,
-         'name': user.name,
-         'password':user.password
-         }for user in User.querry.all()
-    ])
+    return jsonify(
+        [
+            {"id": user.id, "name": user.name, "password": user.password}
+            for user in User.querry.all()
+        ]
+    )
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     db_created_check = os.path.exists(DATABASE_NAME)
     if not db_created_check:
         create_db.create_base()
