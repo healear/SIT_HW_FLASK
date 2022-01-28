@@ -45,7 +45,7 @@
 ### Выводим список и, снова, видим пустое хранилище...
 ![1](/sit_hw/3/done.png)
 
-<div id='id-section1'/>
+<div id='id-section3'/>
 </div>
 
 ## Improve_it
