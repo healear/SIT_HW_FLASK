@@ -1,0 +1,9 @@
+dependency_injector==4.37.0
+Faker==11.3.0
+Flask==2.0.2
+Flask_Bcrypt==0.7.1
+flask_marshmallow==0.14.0
+Flask_RESTful==0.3.9
+Flask_SQLAlchemy==2.5.1
+PyJWT==2.3.0
+SQLAlchemy==1.4.31

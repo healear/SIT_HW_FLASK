@@ -1,18 +1,11 @@
-import uuid
-
-from flask import Flask, request, jsonify, send_file
-from flask_marshmallow import Marshmallow
-from flask_sqlalchemy import SQLAlchemy
-from flask_restful import Api, Resource
+from flask import jsonify, send_file
 from io import BytesIO
 import jwt
 
-import DB_Model
+from containers import Container
 from data.user import User
 from data.todo import Todo
 from data.uploads import File
-import sentry_sdk
-from sentry_sdk.integrations.flask import FlaskIntegration
 from DB_Model import *
 from functools import wraps
 
@@ -21,6 +14,7 @@ app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{DATABASE_NAME}"
 app.config["UPLOAD_FOLDER"] = "/uploads/"
 _session = SQLAlchemy(app)
 _secret = "\x87\xdb\xcd\xf5\rd\x0bF@\x92\x17\x95A\x10\x85X\x15O\x1d\xa8\xd496\xe6"
+
 
 
 def get_token(_payload):
@@ -61,6 +55,11 @@ def token_required(f):
         return f(u, *args, **kwargs)
 
     return decorated
+
+
+@app.route("/health", methods=["GET"])
+def get_health():
+    return {"env":Container.service.get_env()}
 
 
 @app.route("/uploads", methods=["POST"])

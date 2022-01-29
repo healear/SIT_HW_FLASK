@@ -1,10 +1,5 @@
-from flask import Flask
 from sqlalchemy import Column, Integer, String, LargeBinary
-from sqlalchemy.orm import relationship
-from DB_Model import Base, session
-from flask_bcrypt import Bcrypt
-import jwt
-from datetime import datetime, timedelta
+from DB_Model import Base
 
 
 class File(Base):

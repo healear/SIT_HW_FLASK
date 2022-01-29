@@ -1,13 +1,8 @@
 import os.path
 
-from sqlalchemy import and_
-from flask import Flask, request, jsonify
-from flask_sqlalchemy import SQLAlchemy
-from app import app
+from flask import Flask, jsonify
 from DB_Model import DATABASE_NAME, session
-from data.todo import Todo
 from data.user import User
-from data.uploads import File
 
 import create_db
 
