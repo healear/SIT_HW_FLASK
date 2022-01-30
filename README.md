@@ -3,6 +3,10 @@
 ## 1. [Туду](#id-section1)
 ## 2. [Хранилище](#id-section2)
 ## 3. [Improve_it](#id-section3)
+<<<<<<< HEAD
+=======
+## 4. [DevProd](#id-section4)
+>>>>>>> ebe953cad96b0cba89c255b26006ee86d24e9ab2
 <div id='id-section1'/>
 </div>
 
@@ -71,3 +75,16 @@
 #### И так далее...
 #### Результат после исправления:
 ![1](/sit_hw/5/black_done.png)
+<<<<<<< HEAD
+=======
+
+<div id='id-section4'/>
+</div>
+
+## Devprod
+### Продакшн (порт 8000)
+![1](/sit_hw/6/production.png)
+### Девелопмент (порт 8080)
+![1](/sit_hw/6/development.png)
+
+>>>>>>> ebe953cad96b0cba89c255b26006ee86d24e9ab2

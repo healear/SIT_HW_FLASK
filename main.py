@@ -1,32 +1,16 @@
-import os.path
+# This is a sample Python script.
 
-from flask import Flask, jsonify
-from DB_Model import DATABASE_NAME, session
-from data.user import User
-
-import create_db
-
-app = Flask(__name__)
+# Press Shift+F10 to execute it or replace it with your code.
+# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
 
 
-@app.route("/")
-def home():
-    return {"message": "Fine"}, 200
+def print_hi(name):
+    # Use a breakpoint in the code line below to debug your script.
+    print(f"Hi, {name}")  # Press Ctrl+F8 to toggle the breakpoint.
 
 
-@app.route("/users")
-def get_users():
-    return jsonify(
-        [
-            {"id": user.id, "name": user.name, "password": user.password}
-            for user in User.querry.all()
-        ]
-    )
-
-
+# Press the green button in the gutter to run the script.
 if __name__ == "__main__":
-    db_created_check = os.path.exists(DATABASE_NAME)
-    if not db_created_check:
-        create_db.create_base()
+    print_hi("PyCharm")
 
-    _session = session()
+# See PyCharm help at https://www.jetbrains.com/help/pycharm/
