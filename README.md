@@ -2,7 +2,7 @@
 ## Table of contents
 ## 1. [Туду](#id-section1)
 ## 2. [Хранилище](#id-section2)
-
+## 3. [Improve_it](#id-section3)
 <div id='id-section1'/>
 </div>
 
@@ -44,3 +44,30 @@
 ![1](/sit_hw/3/delete.png)
 ### Выводим список и, снова, видим пустое хранилище...
 ![1](/sit_hw/3/done.png)
+
+<div id='id-section3'/>
+</div>
+
+## Improve_it
+### Pycharm_Code_Inspection
+#### Ошибки:
+![1](/sit_hw/5/pycharm1.png)
+![1](/sit_hw/5/pycharm2.png)
+![1](/sit_hw/5/pycharm3.png)
+![1](/sit_hw/5/pycharm5.png)
+#### После исправления ошибок:
+![1](/sit_hw/5/pycharm_done.png)
+### Pylint
+#### Ничего не выдал
+![1](/sit_hw/5/pylint.png)
+### Black
+#### Ошибки:
+![1](/sit_hw/5/black1.png)
+![1](/sit_hw/5/black2.png)
+![1](/sit_hw/5/black3.png)
+![1](/sit_hw/5/black4.png)
+![1](/sit_hw/5/black5.png)
+![1](/sit_hw/5/black6.png)
+#### И так далее...
+#### Результат после исправления:
+![1](/sit_hw/5/black_done.png)

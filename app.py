@@ -13,12 +13,15 @@ app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{DATABASE_NAME}"
 app.config["UPLOAD_FOLDER"] = "/uploads/"
 _session = SQLAlchemy(app)
-_secret = "\x87\xdb\xcd\xf5\rd\x0bF@\x92\x17\x95A\x10\x85X\x15O\x1d\xa8\xd496\xe6"
-
+_secret = (
+    "\x87\xdb\xcd\xf5\rd\x0bF@\x92\x17\x95A\x10\x85X\x15O\x1d\xa8\xd496\xe6"
+)
 
 
 def get_token(_payload):
-    token = jwt.encode(payload={"username": _payload}, key=_secret, algorithm="HS256")
+    token = jwt.encode(
+        payload={"username": _payload}, key=_secret, algorithm="HS256"
+    )
     return token
 
 
@@ -57,9 +60,14 @@ def token_required(f):
     return decorated
 
 
+@app.route("/hello")
+def hello():
+    return {"msg": "Hello World"}
+
+
 @app.route("/health", methods=["GET"])
 def get_health():
-    return {"env":Container.service.get_env()}
+    return {"env": Container.service.get_env()}
 
 
 @app.route("/uploads", methods=["POST"])
@@ -140,7 +148,10 @@ def registrate():
     if not "username" in data or not "password" in data:
         return (
             jsonify(
-                {"error": "Bad request", "message": "Usename or password is not given"}
+                {
+                    "error": "Bad request",
+                    "message": "Usename or password is not given",
+                }
             ),
             400,
         )
